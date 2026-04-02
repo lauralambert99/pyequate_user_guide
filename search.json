@@ -1,0 +1,52 @@
+[
+  {
+    "objectID": "SE_equating.html",
+    "href": "SE_equating.html",
+    "title": "User Guide",
+    "section": "",
+    "text": "#lse = eq.linear_se(formx['x'], formy['x'])\n\n\n#mse = eq.mean_se(formx['x'], formy['x'])",
+    "crumbs": [
+      "Standard Errors of Equating"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "User Guide for pyequate",
+    "section": "",
+    "text": "pyequate is a Python package that brings together numerous different score equating methods within the Python environment. It is available on PyPI and can be installed with pip install pyequate. Once installed, import it as you would other Python packages:\n\n#Import package\nimport pyequate as eq\n\n\n\nThree score equating methods are shown in greater detail below: Random groups, common item/non-equivalent groups (NEAT), and IRT equating.\n\n\n\n\n\n\n\n\n\n\n\n\nComing soon!",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#equating-methods",
+    "href": "index.html#equating-methods",
+    "title": "User Guide for pyequate",
+    "section": "",
+    "text": "Three score equating methods are shown in greater detail below: Random groups, common item/non-equivalent groups (NEAT), and IRT equating.",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#pre--and-post-smoothing",
+    "href": "index.html#pre--and-post-smoothing",
+    "title": "User Guide for pyequate",
+    "section": "",
+    "text": "Coming soon!",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "Random_Groups.html",
+    "href": "Random_Groups.html",
+    "title": "Random Groups Equating",
+    "section": "",
+    "text": "To illustrate functions for random groups equating, we are using the ACTmath file. This is a publicly available dataset and can be found on the GitHub page for this package.\nWe will first walk through an example where both form X and form Y are in a single dataset, followed by an example where form X and form Y are in two different datasets. The functions remain unchanged and the only difference is what columns are being called. Importantly, the functions are expecting frequency data, in the form shown in ?@tbl-randomdataformat. Specifically, one column is the total score (Score) and another is the number of students earning that score (Count).\n#| label: tbl-randomdataformat\n\n\n\n\n\n\nScore\nCount\n\n\n\n\n0\n0\n\n\n1\n2\n\n\n2\n4\n\n\n3\n5\n\n\n4\n5\n\n\n\nThe code below is loading the packages, reading in the data, and also creating a situation where form x and form y are in two separate datasets.\n\n#Needed packages\nimport pandas as pd\nimport pyequate as eq\n\n#Read in data\n#Form X and Y in same file\nACT = pd.read_csv(r'ACTmath.csv') \n\n#Splitting ACT into formx and formy\nformx = ACT[[\"scale\", \"xcount\"]]\nformy = ACT[[\"scale\", \"ycount\"]]\n\n#Renaming both counts to x\n#If different forms are in different datasets, the count column may be named the same\nformx = formx.rename(columns = {\"xcount\": \"x\"})\nformy = formy.rename(columns = {\"ycount\": \"x\"})\n\nThere are three different options for equating with random groups: mean, linear, and equipercentile. Mean and linear equating will use the same base function, eq.linear(), but different type = specifications. Linear equating will specify type = \"linear\" while mean equating will specify type = \"mean\".\nThe eq.linear() function has four required arguments: x, y, score_min, and score_max. x and y are the columns containing frequencies of observed scores for form x (x) and form y (y). score_min, and score_max are the minimum and maximum possible scores for the measure.\nOptional arguments are type = (defaults to “linear”), rescale = (defaults to False), and group = (defaults to “Random”). type = accepts “linear” (linear equating), “mean” (mean equating), and “zscore” (z-score equating). If you want scores to be rescaled to a 0-100 range, change rescale = False to rescale = True. If single group equating is desired, use group = \"Single\".\nBelow are mean and linear equating for the ACTmath dataset, first with both forms in one dataset and then with each form in a separate dataset.\n\n#Mean equating\nmeq = eq.linear(ACT['xcount'], ACT['ycount'], #Specify form x and y\n                0, 40, #Score min and max\n                type = \"mean\", #Type of equating\n                rescale = False, #No rescaling\n                group = \"Random\") #Random groups design\n\n#Linear equating\nleq = eq.linear(ACT['xcount'], ACT['ycount'], #Specify form x and y\n                0, 40, #Score min and max\n                type = \"linear\", #Type of equating\n                rescale = False, #No rescaling\n                group = \"Random\") #Random groups design\n\n\n#Mean equating\nleq_2 = eq.linear(formx['x'], formy['x'], \n                0, 40, \n                type = \"mean\", \n                rescale = False, \n                group = \"Random\")\n                \n#Linear Equating\nleq_2 = eq.linear(formx['x'], formy['x'], \n                0, 40, \n                type = \"linear\", \n                rescale = False, \n                group = \"Random\")\n\n\n#equipercentile equating\n#eqeq = eq.equipercen(x = formx['x'], y = formy['x'], score_min = 0, score_max=40)\n\n#Scores = np.arange(0, 40 + 1)\n#x = formx['x'].value_counts().reindex(Scores, fill_value=0).sort_index()\n#y = formy['x'].value_counts().reindex(Scores, fill_value=0).sort_index()\n\n#rcombined = pd.concat([meq['Score'], meq['ex'], leq['ex'], eqeq['equated']], axis=1)\n#rcombined.columns = [\"score\", \"mean\", \"linear\", \"equip\"]",
+    "crumbs": [
+      "Random Groups"
+    ]
+  }
+]
