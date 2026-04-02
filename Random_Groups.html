@@ -148,14 +148,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Home</span></a>
   </div>
 </li>
-        <li class="sidebar-item sidebar-item-section">
-      <span class="sidebar-item-text sidebar-link text-start">
- <span class="menu-text">Random Groups</span></span>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <span class="sidebar-item-text sidebar-link text-start">
- <span class="menu-text">Standard Errors of Equating</span></span>
-  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Random_Groups.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Random Groups</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./SE_equating.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Standard Errors of Equating</span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -231,7 +235,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <p>The code below is loading the packages, reading in the data, and also creating a situation where form x and form y are in two separate datasets.</p>
-<div id="83800272" class="cell" data-execution_count="1">
+<div id="19108f06" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Needed packages</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pyequate <span class="im">as</span> eq</span>
@@ -253,7 +257,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The <code>eq.linear()</code> function has four required arguments: <code>x</code>, <code>y</code>, <code>score_min</code>, and <code>score_max</code>. <code>x</code> and <code>y</code> are the columns containing frequencies of observed scores for form x (<code>x</code>) and form y (<code>y</code>). <code>score_min</code>, and <code>score_max</code> are the minimum and maximum possible scores for the measure.</p>
 <p>Optional arguments are <code>type =</code> (defaults to “linear”), <code>rescale =</code> (defaults to False), and <code>group =</code> (defaults to “Random”). <code>type =</code> accepts “linear” (linear equating), “mean” (mean equating), and “zscore” (z-score equating). If you want scores to be rescaled to a 0-100 range, change <code>rescale = False</code> to <code>rescale = True</code>. If single group equating is desired, use <code>group = "Single"</code>.</p>
 <p>Below are mean and linear equating for the ACTmath dataset, first with both forms in one dataset and then with each form in a separate dataset.</p>
-<div id="c06c6b7c" class="cell" data-execution_count="2">
+<div id="4ba9fb9f" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Mean equating</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>meq <span class="op">=</span> eq.linear(ACT[<span class="st">'xcount'</span>], ACT[<span class="st">'ycount'</span>], <span class="co">#Specify form x and y</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                <span class="dv">0</span>, <span class="dv">40</span>, <span class="co">#Score min and max</span></span>
@@ -268,7 +272,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>                rescale <span class="op">=</span> <span class="va">False</span>, <span class="co">#No rescaling</span></span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>                group <span class="op">=</span> <span class="st">"Random"</span>) <span class="co">#Random groups design</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="c06a7151" class="cell" data-execution_count="3">
+<div id="73f6db65" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Mean equating</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>leq_2 <span class="op">=</span> eq.linear(formx[<span class="st">'x'</span>], formy[<span class="st">'x'</span>], </span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                <span class="dv">0</span>, <span class="dv">40</span>, </span>
@@ -283,7 +287,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>                rescale <span class="op">=</span> <span class="va">False</span>, </span>
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>                group <span class="op">=</span> <span class="st">"Random"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="b6b01c35" class="cell" data-execution_count="4">
+<div id="27a2f3bc" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#equipercentile equating</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#eqeq = eq.equipercen(x = formx['x'], y = formy['x'], score_min = 0, score_max=40)</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
