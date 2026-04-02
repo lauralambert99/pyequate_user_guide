@@ -122,13 +122,13 @@ leq_2 = eq.linear(formx['x'], formy['x'],
 ```{python}
 #equipercentile equating
 eqeq = eq.equipercen(x = formx1['x'], y = formy1['x'], score_min = 0, score_max=40)
-print(eqeq)
+
 Scores = np.arange(0, 40 + 1)
-x = formx1['x'].value_counts().reindex(Scores, fill_value=0).sort_index()
-y = formy1['x'].value_counts().reindex(Scores, fill_value=0).sort_index()
+x = formx['x'].value_counts().reindex(Scores, fill_value=0).sort_index()
+y = formy['x'].value_counts().reindex(Scores, fill_value=0).sort_index()
 
 rcombined = pd.concat([meq['Score'], meq['ex'], leq['ex'], eqeq['equated']], axis=1)
 rcombined.columns = ["score", "mean", "linear", "equip"]
-print(rcombined)
+
 ```
 
