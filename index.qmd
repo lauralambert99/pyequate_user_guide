@@ -1,0 +1,45 @@
+---
+title: "User Guide for pyequate"
+format:
+  html: 
+    code-copy: true
+---
+
+# User Guide
+
+`pyequate` is a Python package that brings together numerous different score equating methods within the Python environment.  It is available on PyPI and can be installed with `pip install pyequate`.  Once installed, import it as you would other Python packages:
+
+```{python}
+#| echo: true
+#| eval: false
+
+#Import package
+import pyequate
+
+#Alternatively, add short-hand as done with pandas, numpy, etc.
+import pyequate as eq
+
+```
+
+## Equating Methods
+
+Three score equating methods are shown in greater detail below: Random groups, common item/non-equivalent groups (NEAT), and IRT equating.
+
+
+### Common Item, Non-equivalent Group (NEAT) Equating
+
+
+### IRT Equating
+
+
+## Standard Errors of Equating
+
+
+## Pre- and Post-Smoothing
+
+Coming soon!
+
+## Visualizing Equating Results
+
+
+

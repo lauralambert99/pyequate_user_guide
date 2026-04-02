@@ -1,0 +1,134 @@
+# Random Groups Equating
+
+To illustrate functions for random groups equating, we are using the ACTmath file.  This is a publicly available dataset and can be found on the [GitHub page](https://github.com/lauralambert99/py-equate) for this package.
+
+We will first walk through an example where both form X and form Y are in a single dataset, followed by an example where form X and form Y are in two different datasets.  The functions remain unchanged and the only difference is what columns are being called.  Importantly, the functions are expecting frequency data, in the form shown in @tbl-random-data-format.  Specifically, one column is the total score (Score) and another is the number of students earning that score (Count).
+
+```{=html}
+#| label: tbl-random-data-format
+
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+.tg .tg-0lax{text-align:left;vertical-align:top}
+</style>
+<table class="tg"><thead>
+  <tr>
+    <th class="tg-0pky">Score</th>
+    <th class="tg-0pky">Count</th>
+  </tr></thead>
+<tbody>
+  <tr>
+    <td class="tg-0pky">0</td>
+    <td class="tg-0pky">0</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">1</td>
+    <td class="tg-0pky">2</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">2</td>
+    <td class="tg-0lax">4</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">3</td>
+    <td class="tg-0lax">5</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">4</td>
+    <td class="tg-0lax">5</td>
+  </tr>
+</tbody>
+</table>
+```
+
+The code below is loading the packages, reading in the data, and also creating a situation where form x and form y are in two separate datasets.
+
+```{python}
+
+#| echo: true
+
+#Needed packages
+import pandas as pd
+import pyequate as eq
+
+#Read in data
+#Form X and Y in same file
+ACT = pd.read_csv(r'ACTmath.csv') 
+
+#Splitting ACT into formx and formy
+formx = ACT[["scale", "xcount"]]
+formy = ACT[["scale", "ycount"]]
+
+#Renaming both counts to x
+#If different forms are in different datasets, the count column may be named the same
+formx = formx.rename(columns = {"xcount": "x"})
+formy = formy.rename(columns = {"ycount": "x"})
+```
+
+There are three different options for equating with random groups: mean, linear, and equipercentile.  Mean and linear equating will use the same base function, `eq.linear()`, but different `type = ` specifications.  Linear equating will specify `type = "linear"` while mean equating will specify `type = "mean"`.  
+
+The `eq.linear()` function has four required arguments: `x`, `y`, `score_min`, and `score_max`. `x` and `y` are the columns containing frequencies of observed scores for form x (`x`) and form y (`y`). `score_min`, and `score_max` are the minimum and maximum possible scores for the measure.
+
+Optional arguments are `type = ` (defaults to "linear"), `rescale =` (defaults to False), and `group =` (defaults to "Random"). `type = ` accepts "linear" (linear equating), "mean" (mean equating), and "zscore" (z-score equating). If you want scores to be rescaled to a 0-100 range, change `rescale = False` to `rescale = True`. If single group equating is desired, use `group = "Single"`.
+
+Below are mean and linear equating for the ACTmath dataset, first with both forms in one dataset and then with each form in a separate dataset.
+
+```{python}
+#| echo: true
+
+#Mean equating
+meq = eq.linear(ACT['xcount'], ACT['ycount'], #Specify form x and y
+                0, 40, #Score min and max
+                type = "mean", #Type of equating
+                rescale = False, #No rescaling
+                group = "Random") #Random groups design
+
+#Linear equating
+leq = eq.linear(ACT['xcount'], ACT['ycount'], #Specify form x and y
+                0, 40, #Score min and max
+                type = "linear", #Type of equating
+                rescale = False, #No rescaling
+                group = "Random") #Random groups design
+
+```
+
+
+```{python}
+#| echo: true
+
+#Mean equating
+leq_2 = eq.linear(formx['x'], formy['x'], 
+                0, 40, 
+                type = "mean", 
+                rescale = False, 
+                group = "Random")
+                
+#Linear Equating
+leq_2 = eq.linear(formx['x'], formy['x'], 
+                0, 40, 
+                type = "linear", 
+                rescale = False, 
+                group = "Random")
+
+```
+
+
+
+```{python}
+#equipercentile equating
+eqeq = eq.equipercen(x = formx1['x'], y = formy1['x'], score_min = 0, score_max=40)
+print(eqeq)
+Scores = np.arange(0, 40 + 1)
+x = formx1['x'].value_counts().reindex(Scores, fill_value=0).sort_index()
+y = formy1['x'].value_counts().reindex(Scores, fill_value=0).sort_index()
+
+rcombined = pd.concat([meq['Score'], meq['ex'], leq['ex'], eqeq['equated']], axis=1)
+rcombined.columns = ["score", "mean", "linear", "equip"]
+print(rcombined)
+```
+

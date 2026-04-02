@@ -1,0 +1,10 @@
+
+```{python}
+
+lse = eq.linear_se(formx1['x'], formy1['x'])
+print(lse)
+
+mse = eq.mean_se(formx1['x'], formy1['x'])
+print(mse)
+
+```
