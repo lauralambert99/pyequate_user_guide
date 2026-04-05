@@ -58,7 +58,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -103,6 +103,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="styles.css">
@@ -165,23 +168,254 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#random-groups" id="toc-random-groups" class="nav-link active" data-scroll-target="#random-groups">Random Groups</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
 
-
-
-
-<div id="7b9cd79d" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#lse = eq.linear_se(formx['x'], formy['x'])</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#mse = eq.mean_se(formx['x'], formy['x'])</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Standard Errors of Equating</h1>
 </div>
 
 
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Currently, standard errors of equating (SEE) are only available for random groups designs.</p>
+<section id="random-groups" class="level2">
+<h2 class="anchored" data-anchor-id="random-groups">Random Groups</h2>
+<p>Standard errors of equating are calculated using <code>mean_se()</code> (mean equating) and <code>linear_se()</code> (linear equating). <code>mean_se()</code> has two arguments: <code>formX</code> and <code>formY</code>. Each are an array of raw scores on each form. <code>linear_se()</code> has the arguments of <code>formX</code> and <code>formY</code> in addition to an optional <code>y_scores</code>. The optional argument allows users to specify a range of scores to calculate the SEE for. If a range is not specified, the default is to use all unique values in form Y.</p>
+<div id="399f1d8e" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Calculate SEE for mean equating</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>eq.mean_se(formx[<span class="st">'x'</span>], formy[<span class="st">'x'</span>])</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Calcualte SEE for linear equating</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>eq.linear_se(formx[<span class="st">'x'</span>], formy[<span class="st">'x'</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">scores</th>
+<th data-quarto-table-cell-role="th">SEE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>0</td>
+<td>24.569200</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>1</td>
+<td>24.418938</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>3</td>
+<td>24.120148</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>12</td>
+<td>22.806451</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>13</td>
+<td>22.663842</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>29</td>
+<td>20.489828</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">6</th>
+<td>32</td>
+<td>20.107818</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">7</th>
+<td>42</td>
+<td>18.904412</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">8</th>
+<td>47</td>
+<td>18.347817</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">9</th>
+<td>48</td>
+<td>18.240467</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">10</th>
+<td>59</td>
+<td>17.156072</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">11</th>
+<td>61</td>
+<td>16.979445</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">12</th>
+<td>70</td>
+<td>16.272244</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">13</th>
+<td>79</td>
+<td>15.722191</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">14</th>
+<td>80</td>
+<td>15.671539</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">15</th>
+<td>88</td>
+<td>15.346193</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">16</th>
+<td>95</td>
+<td>15.182577</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">17</th>
+<td>97</td>
+<td>15.157208</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">18</th>
+<td>104</td>
+<td>15.144243</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">19</th>
+<td>107</td>
+<td>15.174830</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">20</th>
+<td>110</td>
+<td>15.226959</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">21</th>
+<td>114</td>
+<td>15.329581</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">22</th>
+<td>116</td>
+<td>15.394877</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">23</th>
+<td>122</td>
+<td>15.645254</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">24</th>
+<td>131</td>
+<td>16.166707</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">25</th>
+<td>132</td>
+<td>16.234864</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">26</th>
+<td>134</td>
+<td>16.377019</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">27</th>
+<td>137</td>
+<td>16.604475</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">28</th>
+<td>151</td>
+<td>17.872042</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">29</th>
+<td>158</td>
+<td>18.617992</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">30</th>
+<td>161</td>
+<td>18.957610</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">31</th>
+<td>164</td>
+<td>19.308283</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">32</th>
+<td>166</td>
+<td>19.547913</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">33</th>
+<td>169</td>
+<td>19.915709</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">34</th>
+<td>177</td>
+<td>20.941706</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">35</th>
+<td>194</td>
+<td>23.305733</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">36</th>
+<td>197</td>
+<td>23.744639</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+
+
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
